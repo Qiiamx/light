@@ -1,6 +1,7 @@
 package org.light.server.controller.society;
 
-import cn.dev33.satoken.annotation.SaCheckLogin;
+import cn.dev33.satoken.annotation.SaCheckRole;
+import cn.dev33.satoken.annotation.SaMode;
 import cn.dev33.satoken.stp.StpUtil;
 import com.mybatisflex.core.paginate.Page;
 import org.light.server.api.society.CreditApi;
@@ -20,7 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("society/credit")
-@SaCheckLogin
+@SaCheckRole(mode = SaMode.OR, value = {"1","2","3"})
 public class CreditController implements CreditApi {
 
     @GetMapping("getMyCreditScore")

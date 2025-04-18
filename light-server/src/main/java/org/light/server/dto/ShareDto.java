@@ -24,6 +24,10 @@ public class ShareDto {
      * 发起用户id
      */
     private String shareUserId;
+    /**
+     * 最终使用的用户id，只能用一次
+     */
+    private String useUserId;
 
     public String getId() {
         return id;

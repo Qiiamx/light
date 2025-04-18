@@ -18,12 +18,12 @@ public interface UserApi {
     /**
      * 禁用用户
      */
-    Result<UserDto> disable(String userId);
+    Result<UserDto> disable(UserDto user);
 
     /**
      * 启用用户
      */
-    Result<UserDto> enable(String userId);
+    Result<UserDto> enable(UserDto user);
 
     /**
      * 修改用户角色
