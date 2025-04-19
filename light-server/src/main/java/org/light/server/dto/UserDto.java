@@ -1,9 +1,7 @@
 package org.light.server.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import org.light.server.entity.SysUser;
-import org.light.server.enums.ThirdTypeEnum;
-import org.light.server.enums.UserEnableEnum;
-import org.light.server.enums.UserTypeEnum;
 
 /**
  * 传输对象 - 用户信息
@@ -12,7 +10,8 @@ public class UserDto {
     /**
      * 用户ID
      */
-    private String id;
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
+    private Long id;
 
     /**
      * 用户昵称
@@ -57,22 +56,19 @@ public class UserDto {
     public UserDto() {
     }
     public UserDto(SysUser data) {
-        this.id = data.getId().toString();
-        this.nickName = data.getNickName();
-        this.userType = data.getUserType();
-        this.userTypeNm = UserTypeEnum.format(data.getUserType());
-        this.thirdId = data.getThirdId();
-        this.thirdType = data.getThirdType();
-        this.thirdTypeNm = ThirdTypeEnum.format(data.getThirdType());
-        this.enable = data.getEnable();
-        this.enableNm = UserEnableEnum.format(data.getEnable());
+        this.setId(data.getId());
+        this.setNickName(data.getNickName());
+        this.setUserType(data.getUserType());
+        this.setThirdId(data.getThirdId());
+        this.setThirdType(data.getThirdType());
+        this.setEnable(data.getEnable());
     }
 
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

@@ -2,7 +2,6 @@ package org.light.server.entity;
 
 import com.mybatisflex.annotation.Id;
 import com.mybatisflex.annotation.Table;
-import java.io.Serializable;
 import com.mybatisflex.core.activerecord.Model;
 
 import java.io.Serial;

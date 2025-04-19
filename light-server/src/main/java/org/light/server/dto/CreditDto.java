@@ -1,7 +1,6 @@
 package org.light.server.dto;
 
-import org.light.server.entity.Credit;
-import org.light.server.entity.SysUser;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 /**
  * 传输对象 - 信用分
@@ -10,7 +9,8 @@ public class CreditDto {
     /**
      * 用户ID
      */
-    private String userId;
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
+    private Long userId;
 
     /**
      * 用户选择展示的名称
@@ -22,11 +22,11 @@ public class CreditDto {
      */
     private Integer score;
 
-    public String getUserId() {
+    public Long getUserId() {
         return userId;
     }
 
-    public void setUserId(String userId) {
+    public void setUserId(Long userId) {
         this.userId = userId;
     }
 

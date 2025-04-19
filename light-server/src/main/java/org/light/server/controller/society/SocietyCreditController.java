@@ -4,8 +4,7 @@ import cn.dev33.satoken.annotation.SaCheckRole;
 import cn.dev33.satoken.annotation.SaMode;
 import cn.dev33.satoken.stp.StpUtil;
 import com.mybatisflex.core.paginate.Page;
-import org.light.server.api.society.CreditApi;
-import org.light.server.common.QueryPage;
+import org.light.server.api.society.SocietyCreditApi;
 import org.light.server.common.Result;
 import org.light.server.dto.CreditDto;
 import org.light.server.dto.CreditRecordDto;
@@ -22,7 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("society/credit")
 @SaCheckRole(mode = SaMode.OR, value = {"1","2","3"})
-public class CreditController implements CreditApi {
+public class SocietyCreditController implements SocietyCreditApi {
 
     @GetMapping("getMyCreditScore")
     @Override
@@ -43,12 +42,13 @@ public class CreditController implements CreditApi {
 
     @GetMapping("listMyCreditRecord")
     @Override
-    public Result<Page<CreditRecordDto>> listMyCreditRecord(QueryPage<CreditRecordDto> page) {
+    public Result<Page<CreditRecordDto>> listMyCreditRecord(Integer pageNumber, Integer pageSize, CreditRecordDto recordDto) {
         Long loginId = StpUtil.getLoginIdAsLong();
-        Page<CreditRecordDto> res = new Page<>(page.getPage(), page.getSize());
+        Page<CreditRecordDto> res = new Page<>(pageNumber, pageSize);
         CreditRecord.create()
                 .select(CreditRecordTableDef.CREDIT_RECORD.ALL_COLUMNS)
                 .where(CreditRecordTableDef.CREDIT_RECORD.USER_ID.eq(loginId))
+                .orderBy(CreditRecordTableDef.CREDIT_RECORD.CREATE_TIME, false)
                 .pageAs(res, CreditRecordDto.class);
         return Result.success(res);
     }

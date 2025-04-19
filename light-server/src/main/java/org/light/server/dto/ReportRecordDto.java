@@ -1,5 +1,9 @@
 package org.light.server.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import org.light.server.enums.ReportStatusEnum;
+import org.light.server.enums.VerifyStatusEnum;
+
 /**
  * 传输对象 - 举报记录
  */
@@ -7,7 +11,8 @@ public class ReportRecordDto {
     /**
      * 标识符
      */
-    private String id;
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
+    private Long id;
 
     /**
      * 举报名称
@@ -17,7 +22,8 @@ public class ReportRecordDto {
     /**
      * 游戏id
      */
-    private String gameId;
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
+    private Long gameId;
 
     /**
      * 游戏名称
@@ -42,24 +48,27 @@ public class ReportRecordDto {
     /**
      * 举报用户Id
      */
-    private String reportUserId;
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
+    private Long reportUserId;
 
 
+    private Integer reportStatus;
     /**
-     * 举报状态 已举报 处理中 已处理
+     * 举报状态 ReportStatusEnum
      */
     private String reportStatusNm;
 
+    private Integer verifyStatus;
     /**
      * 核实结果 作弊 未作弊 无法核实
      */
     private String verifyStatusNm;
 
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -71,11 +80,11 @@ public class ReportRecordDto {
         this.name = name;
     }
 
-    public String getGameId() {
+    public Long getGameId() {
         return gameId;
     }
 
-    public void setGameId(String gameId) {
+    public void setGameId(Long gameId) {
         this.gameId = gameId;
     }
 
@@ -111,11 +120,20 @@ public class ReportRecordDto {
         this.reportRemark = reportRemark;
     }
 
-    public String getReportUserId() {
+    public Long getReportUserId() {
         return reportUserId;
     }
 
-    public void setReportUserId(String reportUserId) {
+    public Integer getReportStatus() {
+        return reportStatus;
+    }
+
+    public void setReportStatus(Integer reportStatus) {
+        this.reportStatus = reportStatus;
+        this.reportStatusNm = ReportStatusEnum.format(reportStatus);
+    }
+
+    public void setReportUserId(Long reportUserId) {
         this.reportUserId = reportUserId;
     }
 
@@ -124,7 +142,15 @@ public class ReportRecordDto {
     }
 
     public void setReportStatusNm(String reportStatusNm) {
-        this.reportStatusNm = reportStatusNm;
+    }
+
+    public Integer getVerifyStatus() {
+        return verifyStatus;
+    }
+
+    public void setVerifyStatus(Integer verifyStatus) {
+        this.verifyStatus = verifyStatus;
+        this.verifyStatusNm = VerifyStatusEnum.format(verifyStatus);
     }
 
     public String getVerifyStatusNm() {
@@ -132,6 +158,6 @@ public class ReportRecordDto {
     }
 
     public void setVerifyStatusNm(String verifyStatusNm) {
-        this.verifyStatusNm = verifyStatusNm;
+
     }
 }

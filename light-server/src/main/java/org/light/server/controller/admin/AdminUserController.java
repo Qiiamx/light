@@ -4,15 +4,16 @@ import cn.dev33.satoken.annotation.SaCheckRole;
 import cn.dev33.satoken.annotation.SaMode;
 import cn.dev33.satoken.session.SaSession;
 import cn.dev33.satoken.stp.StpUtil;
-import cn.dev33.satoken.temp.SaTempUtil;
-import org.light.server.api.admin.UserApi;
+import jakarta.annotation.Resource;
+import org.light.server.api.admin.AdminUserApi;
 import org.light.server.common.Result;
 import org.light.server.constant.ConstantValue;
 import org.light.server.dto.ShareDto;
 import org.light.server.dto.UserDto;
+import org.light.server.entity.Share;
 import org.light.server.entity.SysUser;
 import org.light.server.enums.UserEnableEnum;
-import org.springframework.util.StringUtils;
+import org.light.server.service.ShareService;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,7 +22,10 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/admin/user")
 @SaCheckRole(mode = SaMode.OR, value = {"1"})
-public class UserController implements UserApi {
+public class AdminUserController implements AdminUserApi {
+
+    @Resource
+    private ShareService shareService;
 
     /**
      * 返回一个邀请信息，由前端组成可复制的文本
@@ -31,8 +35,12 @@ public class UserController implements UserApi {
     @PostMapping("share")
     @Override
     public Result<ShareDto> share(@RequestBody ShareDto share) {
-        // todo 记录邀请到数据库
-        return Result.success(share);
+        Share data = shareService.createShare(share);
+        if(data != null) {
+            return Result.success(new ShareDto(data));
+        }else{
+            return Result.error("创建邀请失败");
+        }
     }
 
     /**
@@ -42,10 +50,10 @@ public class UserController implements UserApi {
     @PostMapping("disable")
     @Override
     public Result<UserDto> disable(@RequestBody UserDto user) {
-        if(!StringUtils.hasText(user.getId())){
+        if(user.getId()==null){
             return Result.error("非法请求");
         }
-        Long uid = Long.parseLong(user.getId());
+        Long uid = user.getId();
         SysUser data = SysUser.create().setId(uid).oneById();
         if(data == null){
             return Result.error("非法请求");
@@ -67,10 +75,10 @@ public class UserController implements UserApi {
     @PostMapping("enable")
     @Override
     public Result<UserDto> enable(@RequestBody UserDto user) {
-        if(!StringUtils.hasText(user.getId())){
+        if(user.getId() == null){
             return Result.error("非法请求");
         }
-        Long uid = Long.parseLong(user.getId());
+        Long uid = user.getId();
         SysUser data = SysUser.create().setId(uid).oneById();
         if(data == null){
             return Result.error("非法请求");
@@ -90,10 +98,10 @@ public class UserController implements UserApi {
     @PostMapping("updateType")
     @Override
     public Result<UserDto> updateType(@RequestBody UserDto user) {
-        if(!StringUtils.hasText(user.getId())){
+        if(user.getId() == null){
             return Result.error("非法请求");
         }
-        Long uid = Long.parseLong(user.getId());
+        Long uid = user.getId();
         SysUser data = SysUser.create().setId(uid).oneById();
         if(data == null){
             return Result.error("非法请求");

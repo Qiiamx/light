@@ -1,8 +1,9 @@
 package org.light.server.controller.society;
 
+import cn.dev33.satoken.annotation.SaCheckLogin;
 import cn.dev33.satoken.stp.StpUtil;
 import jakarta.annotation.Resource;
-import org.light.server.api.society.AuthApi;
+import org.light.server.api.society.SocietyAuthApi;
 import org.light.server.common.Result;
 import org.light.server.constant.ConstantValue;
 import org.light.server.dto.ShareDto;
@@ -12,14 +13,13 @@ import org.light.server.enums.UserEnableEnum;
 import org.light.server.enums.UserTypeEnum;
 import org.light.server.service.AuthService;
 import org.light.server.service.ShareService;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("society/auth")
-public class AuthController implements AuthApi {
+public class SocietyAuthController implements SocietyAuthApi {
 
     @Resource
     private AuthService authService;
@@ -53,15 +53,24 @@ public class AuthController implements AuthApi {
 
     @PostMapping("updateUserTypeByShare")
     @Override
+    @SaCheckLogin
     public Result<UserDto> updateUserTypeByShare(ShareDto share) {
-        if(!StringUtils.hasText(share.getId())){
+        if(share.getId() == null){
             return Result.error("非法请求");
         }
-        if(shareService.setUserType(Long.parseLong(share.getId()))){
+        if(shareService.setUserType(share.getId())){
             return Result.success();
         }else{
             return Result.error("邀请链接失效");
         }
+    }
+
+    @PostMapping("updateUserNickName")
+    @Override
+    @SaCheckLogin
+    public Result<UserDto> updateUserNickName(UserDto user) {
+        SysUser.create().setId(StpUtil.getLoginIdAsLong()).setNickName(user.getNickName()).updateById();
+        return Result.success();
     }
 
 

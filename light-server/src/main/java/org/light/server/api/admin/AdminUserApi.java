@@ -7,7 +7,7 @@ import org.light.server.dto.UserDto;
 /**
  * 用户接口
  */
-public interface UserApi {
+public interface AdminUserApi {
 
     /**
      * 发起一个邀请

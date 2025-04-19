@@ -1,13 +1,12 @@
 package org.light.server.enums;
 
-public enum UserTypeEnum {
-    管理员(1),
-    审核员(2),
-    用户(3);
+public enum ValidTypeEnum {
+    有效(1),
+    无效(2);
 
     private Integer type;
 
-    UserTypeEnum(Integer type){
+    ValidTypeEnum(Integer type){
         this.type = type;
     }
 
@@ -16,8 +15,8 @@ public enum UserTypeEnum {
     }
 
     public static String format(Integer type){
-        UserTypeEnum[] values = UserTypeEnum.values();
-        for(UserTypeEnum u : values){
+        ValidTypeEnum[] values = ValidTypeEnum.values();
+        for(ValidTypeEnum u : values){
             if(u.type().equals(type)){
                 return u.name();
             }

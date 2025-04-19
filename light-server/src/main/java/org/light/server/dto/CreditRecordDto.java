@@ -1,5 +1,7 @@
 package org.light.server.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 /**
  * 传输对象 - 信用记录
  */
@@ -7,7 +9,8 @@ public class CreditRecordDto {
     /**
      * 记录ID
      */
-    private String Id;
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
+    private Long Id;
     /**
      * 用户ID
      */
@@ -18,12 +21,12 @@ public class CreditRecordDto {
      */
     private Integer score;
 
-    private String createTime;
-
     /**
-     * 备注
+     * 说明
      */
     private String rmks;
+
+    private String createTime;
 
     public String getRmks() {
         return rmks;
@@ -49,11 +52,11 @@ public class CreditRecordDto {
         this.userId = userId;
     }
 
-    public String getId() {
+    public Long getId() {
         return Id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         Id = id;
     }
 

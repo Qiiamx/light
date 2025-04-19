@@ -1,13 +1,14 @@
 package org.light.server.enums;
 
-public enum UserTypeEnum {
-    管理员(1),
-    审核员(2),
-    用户(3);
+public enum ReportStatusEnum {
+    已举报(5),
+    处理中(25),
+    已处理(50),
+    取消(90);
 
     private Integer type;
 
-    UserTypeEnum(Integer type){
+    ReportStatusEnum(Integer type){
         this.type = type;
     }
 
@@ -16,8 +17,8 @@ public enum UserTypeEnum {
     }
 
     public static String format(Integer type){
-        UserTypeEnum[] values = UserTypeEnum.values();
-        for(UserTypeEnum u : values){
+        ReportStatusEnum[] values = ReportStatusEnum.values();
+        for(ReportStatusEnum u : values){
             if(u.type().equals(type)){
                 return u.name();
             }
